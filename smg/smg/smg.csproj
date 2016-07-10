@@ -46,6 +46,8 @@
     <Compile Include="ArgumentParsing\ArgsData.cs" />
     <Compile Include="ArgumentParsing\ArgsParser.cs" />
     <Compile Include="ArgumentParsing\Attributes\BooleanArgAttribute.cs" />
+    <Compile Include="ArgumentParsing\Attributes\IndexedArgAttribute.cs" />
+    <Compile Include="ArgumentParsing\Exceptions\ArgumentParsingException.cs" />
     <Compile Include="ArgumentParsing\Exceptions\BooleanArgumentPropertyIsNotBoolException.cs" />
     <Compile Include="StateMachineGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

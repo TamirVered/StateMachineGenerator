@@ -11,7 +11,17 @@ namespace smg
     {
         static void Main(string[] args)
         {
-            ArgsData argsData = ArgsParser.Parse<ArgsData>(args);
+            ArgsData argsData;
+            if (!ArgsParser.TryParse(args, out argsData))
+            {
+                DisplayHelp();
+                return;
+            }
+        }
+
+        private static void DisplayHelp()
+        {
+            throw new NotImplementedException();
         }
     }
 }
