@@ -11,6 +11,9 @@ namespace smg
 {
     class StateMachineGenerator
     {
+        /// <summary>
+        /// Contains the help message to be presented.
+        /// </summary>
         private static readonly string HELP = "Made by Tamir Vered 2016" + Environment.NewLine
             + Environment.NewLine
             + "This utility allows generation of safe state machine wrappers according to attributed compiled class with many possible usages such as: " + Environment.NewLine
@@ -25,7 +28,10 @@ namespace smg
             + Environment.NewLine
             + "For more information visit the project's github on https://github.com/TamirVered/StateMachineGenerator" + Environment.NewLine;
 
-
+        /// <summary>
+        /// Used as entry point.
+        /// </summary>
+        /// <param name="args">Arguments which will be used for the application to determine how to work (see: <see cref="HELP"/>).</param>
         static void Main(string[] args)
         {
             ArgsData argsData;
