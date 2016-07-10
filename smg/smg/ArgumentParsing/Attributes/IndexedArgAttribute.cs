@@ -21,6 +21,6 @@ namespace smg.ArgumentParsing.Attributes
         /// <summary>
         /// A zero based index of this <see cref="IndexedArgAttribute"/> among all of the arguments.
         /// </summary>
-        public int Index { get; set; }
+        public int Index { get; private set; }
     }
 }

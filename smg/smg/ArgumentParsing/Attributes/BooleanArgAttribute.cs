@@ -23,6 +23,6 @@ namespace smg.ArgumentParsing.Attributes
         /// <summary>
         /// A collection of all the names possible for this instance of <see cref="BooleanArgAttribute"/>
         /// </summary>
-        public IEnumerable<string> PossibleArgNames { get; set; }
+        public IEnumerable<string> PossibleArgNames { get; private set; }
     }
 }
