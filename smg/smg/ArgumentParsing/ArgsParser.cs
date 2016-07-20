@@ -22,7 +22,7 @@ namespace smg.ArgumentParsing
             try
             {
                 argumentContainer = Parse<T>(args);
-                return true;
+                return argumentContainer != null;
             }
             catch (Exception)
             {

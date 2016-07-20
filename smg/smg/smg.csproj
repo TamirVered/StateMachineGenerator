@@ -52,6 +52,7 @@
     <Compile Include="StateDescription\Attributes\AvailableForAllStatesAttribute.cs" />
     <Compile Include="StateDescription\Attributes\AvailableForStatesAttribute.cs" />
     <Compile Include="StateDescription\Attributes\StateGroupAttribute.cs" />
+    <Compile Include="StateDescription\Enums\LogicalRelations.cs" />
     <Compile Include="StateDescription\IAmStateful.cs" />
     <Compile Include="StateMachineGenerator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
