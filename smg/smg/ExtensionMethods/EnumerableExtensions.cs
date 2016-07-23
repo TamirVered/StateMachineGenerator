@@ -9,7 +9,7 @@ namespace smg.ExtensionMethods
     /// <summary>
     /// Contains extension methods for <see cref="IEnumerable{T}"/>.
     /// </summary>
-    static class EnumerableExtensions
+    public static class EnumerableExtensions
     {
         /// <summary>
         /// Gets all of the permutations available for collection of collections.
@@ -27,10 +27,6 @@ namespace smg.ExtensionMethods
         /// </example>
         public static IEnumerable<IEnumerable<T>> GetPermutations<T>(this IEnumerable<IEnumerable<T>> enumerable)
         {
-            if (!enumerable.Any())
-            {
-                return Enumerable.Empty<IEnumerable<T>>();
-            }
             if (!enumerable.Skip(1).Any())
             {
                 return enumerable
