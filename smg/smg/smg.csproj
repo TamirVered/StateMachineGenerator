@@ -49,6 +49,7 @@
     <Compile Include="ArgumentParsing\Attributes\IndexedArgAttribute.cs" />
     <Compile Include="ArgumentParsing\Exceptions\ArgumentParsingException.cs" />
     <Compile Include="ArgumentParsing\Exceptions\BooleanArgumentPropertyIsNotBoolException.cs" />
+    <Compile Include="ExtensionMethods\EnumerableExtensions.cs" />
     <Compile Include="StateDescription\Attributes\AvailableForAllStatesAttribute.cs" />
     <Compile Include="StateDescription\Attributes\AvailableForStatesAttribute.cs" />
     <Compile Include="StateDescription\Attributes\StateGroupAttribute.cs" />
