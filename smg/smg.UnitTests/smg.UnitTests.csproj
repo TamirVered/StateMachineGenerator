@@ -51,6 +51,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="EnumerableExtensionsUnitTests.cs" />
+    <Compile Include="LogicalRelationsUnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
