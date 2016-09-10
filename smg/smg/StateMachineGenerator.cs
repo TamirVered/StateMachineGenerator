@@ -6,9 +6,13 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using smg.ArgumentParsing;
+using smg.StateGeneration;
 
 namespace smg
 {
+    /// <summary>
+    /// Generates state wrappers for a stateful type.
+    /// </summary>
     class StateMachineGenerator
     {
         /// <summary>
@@ -67,6 +71,8 @@ namespace smg
                 DisplayHelp();
                 return;
             }
+
+            StateGenerator generator = StateGenerator.GetFromType(type);
         }
 
         /// <summary>
@@ -97,7 +103,7 @@ namespace smg
             }
             if (type == null)
             {
-                Console.WriteLine($"No type with full name {type.FullName} was found in the given assembly.");
+                Console.WriteLine($"No type with full name '{typeName}' was found in the given assembly.");
                 DisplayHelp();
                 return null;
             }
