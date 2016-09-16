@@ -35,8 +35,6 @@ namespace smg.StateGeneration
                 .Select(x => x.Value)
                 .GetPermutations();
 
-            IEnumerable<MethodInfo> methods = type.GetMethods();
-
             foreach (IEnumerable<string> permutation in permutations)
             {
                 mStateWrappers.Add(StateWrapper.CreateWrapper(type, groupToStates, permutation));
