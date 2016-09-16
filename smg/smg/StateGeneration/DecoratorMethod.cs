@@ -2,7 +2,6 @@ using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 using smg.StateDescription.Attributes;
 using smg.StateDescription.LogicalRelations;
@@ -149,7 +148,7 @@ namespace smg.StateGeneration
 
             string[] newState = mPermutation.Select(x => ReplaceStateIfNeeded(x, statesChanges)).ToArray();
 
-            string typeName = string.Join(string.Empty, newState) + mType.Name;
+            string typeName = string.Join(string.Empty, newState) + StateWrapper.NAME_POSTFIX;
 
             if (mType.IsGenericType)
             {
@@ -185,22 +184,22 @@ namespace smg.StateGeneration
         /// <summary>
         /// The <see cref="Type"/> whos method is being decorated.
         /// </summary>
-        private Type mType;
+        private readonly Type mType;
 
         /// <summary>
         /// Contains the available states of the <see cref="Type"/> whos method is being decorated.
         /// </summary>
-        private Dictionary<string, string[]> mGroupsToStates;
+        private readonly Dictionary<string, string[]> mGroupsToStates;
 
         /// <summary>
         /// The method being decorated by this instance of <see cref="DecoratorMethod"/>,
         /// </summary>
-        private MethodInfo mMethodInfo;
+        private readonly MethodInfo mMethodInfo;
 
         /// <summary>
         /// A 
         /// </summary>
-        private string[] mPermutation;
+        private readonly string[] mPermutation;
 
         #endregion
     }

@@ -133,7 +133,7 @@ namespace smg.StateGeneration
         /// <summary>
         /// Contains the methods decorated by the wrapper class represented by this instance of <see cref="StateWrapper"/>.
         /// </summary>
-        private List<DecoratorMethod> mDecoratorMethods = new List<DecoratorMethod>();
+        private readonly List<DecoratorMethod> mDecoratorMethods = new List<DecoratorMethod>();
 
         /// <summary>
         /// The stateful <see cref="Type"/> being wrapped by the class represented by this instance of <see cref="StateWrapper"/>.
