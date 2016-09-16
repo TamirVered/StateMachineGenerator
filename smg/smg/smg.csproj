@@ -62,6 +62,7 @@
     <Compile Include="StateDescription\LogicalRelations\XorLogicalRelation.cs" />
     <Compile Include="StateGeneration\DecoratorMethod.cs" />
     <Compile Include="StateGeneration\Exceptions\InvalidStateRepresentationException.cs" />
+    <Compile Include="StateGeneration\ExtensionMethods\TypeExtensions.cs" />
     <Compile Include="StateGeneration\StateGenerator.cs" />
     <Compile Include="StateGeneration\StateWrapper.cs" />
     <Compile Include="StateMachineGenerator.cs" />

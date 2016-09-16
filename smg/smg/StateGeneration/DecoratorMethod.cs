@@ -6,6 +6,7 @@ using System.Reflection;
 using smg.StateDescription.Attributes;
 using smg.StateDescription.LogicalRelations;
 using smg.StateGeneration.Exceptions;
+using smg.StateGeneration.ExtensionMethods;
 
 namespace smg.StateGeneration
 {
@@ -60,7 +61,8 @@ namespace smg.StateGeneration
         {
             CodeMemberMethod method = new CodeMemberMethod
             {
-                Name = mMethodInfo.Name
+                Name = mMethodInfo.Name,
+                Attributes = MemberAttributes.Public
             };
 
             method.Parameters.AddRange(mMethodInfo.GetParameters()
@@ -68,7 +70,7 @@ namespace smg.StateGeneration
                 .ToArray());
 
             method.TypeParameters.AddRange(mMethodInfo.GetGenericArguments()
-                .Select(x => new CodeTypeParameter(x.Name))
+                .Select(x => x.GetCodeTypeParameter())
                 .ToArray());
 
             method.ReturnType = GetMethodReturnType();

@@ -8,6 +8,7 @@ using smg.ExtensionMethods;
 using smg.StateDescription.Attributes;
 using smg.StateDescription.LogicalRelations;
 using smg.StateGeneration.Exceptions;
+using smg.StateGeneration.ExtensionMethods;
 
 namespace smg.StateGeneration
 {
@@ -24,9 +25,14 @@ namespace smg.StateGeneration
         public const string NAME_POSTFIX = "State";
 
         /// <summary>
-        /// The name of the field contains the wrapped stateful object.
+        /// The name of the field that contains the wrapped stateful object.
         /// </summary>
         public const string WRAPPED_FIELD_NAME = "mWrappedInstance";
+
+        /// <summary>
+        /// The name of the constructor argument that contains the wrapped stateful object.
+        /// </summary>
+        public const string CONSTRUCTOR_ARGUMENT_NAME = "statefulObject";
 
         #endregion
 
@@ -37,7 +43,7 @@ namespace smg.StateGeneration
         /// </summary>
         /// <param name="type">The stateful <see cref="Type"/> being wrapped.</param>
         /// <param name="groupToStates">Contains the available states of the provided <see cref="Type"/>.</param>
-        /// <param name="permutation">A permutation of states of the type to be represented by the instanciated <see cref="StateWrapper"/>.</param>
+        /// <param name="permutation">A permutation of states of the type to be represented by the instantiated <see cref="StateWrapper"/>.</param>
         private StateWrapper(Type type, Dictionary<string, string[]> groupToStates, string[] permutation)
         {
             mPermutation = permutation;
@@ -75,21 +81,51 @@ namespace smg.StateGeneration
         /// <returns>A <see cref="CodeTypeDeclaration"/> which represents the wrapper class which this <see cref="StateWrapper"/> represents.</returns>
         public CodeTypeDeclaration GetTypeDeclaration()
         {
-            /*string className = string.Join(string.Empty, mPermutation) + NAME_POSTFIX;
+            string className = string.Join(string.Empty, mPermutation) + NAME_POSTFIX;
+
             CodeTypeDeclaration typeDeclaration = new CodeTypeDeclaration(className)
             {
                 IsClass = true,
                 TypeAttributes = TypeAttributes.Public | TypeAttributes.Class
             };
-            typeDeclaration.TypeParameters.Add();
-            CodeTypeParameter genericTypeParameter = new CodeTypeParameter();
-            genericTypeParameter;*/
-            return null;
+
+            typeDeclaration.TypeParameters.AddRange(mStatefulType.GetGenericArguments()
+                .Select(x => x.GetCodeTypeParameter())
+                .ToArray());
+
+            CodeTypeMemberCollection members = new CodeTypeMemberCollection
+            {
+                new CodeMemberField(mStatefulType, WRAPPED_FIELD_NAME) {Attributes = MemberAttributes.Family},
+                GetStateConstructor()
+            };
+
+            foreach (CodeMemberMethod codeMemberMethod in mDecoratorMethods.Select(x => x.GetMemberMethod()))
+            {
+                members.Add(codeMemberMethod);
+            }
+
+            return typeDeclaration;
         }
 
         #endregion
 
         #region Private Methods
+
+        /// <summary>
+        /// Gets a constructor to instantiate the state wrapper.
+        /// </summary>
+        /// <returns>A constructor to instantiate the state wrapper.</returns>
+        private CodeConstructor GetStateConstructor()
+        {
+            CodeConstructor constructor = new CodeConstructor { Attributes = MemberAttributes.Public };
+
+            CodeParameterDeclarationExpression parameter = new CodeParameterDeclarationExpression(new CodeTypeReference(mStatefulType), CONSTRUCTOR_ARGUMENT_NAME);
+            CodeFieldReferenceExpression fieldReference = new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), WRAPPED_FIELD_NAME);
+            constructor.Parameters.Add(parameter);
+            constructor.Statements.Add(new CodeAssignStatement(fieldReference, parameter));
+
+            return constructor;
+        }
 
         /// <summary>
         /// Determines whether a method is relevant for the state permutation represented by this instance of <see cref="StateWrapper"/>.
