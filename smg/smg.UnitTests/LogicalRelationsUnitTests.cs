@@ -145,6 +145,18 @@ namespace smg.UnitTests
         /// </summary>
         [TestMethod]
         [TestCategory(nameof(AndLogicalRelation))]
+        public void And_ValidPermutationNoStatesToTest_ExpectedTrue()
+        {
+            string[] permutation = { "State1", "State4", "State6" };
+            string[] availableForStates = Enumerable.Empty<string>().ToArray();
+            AssertPermutationIsAvailable(permutation, availableForStates, AND_LOGICAL_RELATION, true);
+        }
+
+        /// <summary>
+        /// Test whether a given permutation is available for specific states under <see cref="AndLogicalRelation"/>.
+        /// </summary>
+        [TestMethod]
+        [TestCategory(nameof(AndLogicalRelation))]
         public void And_ValidPermutationWhenOneStateFits_ExpectedTrue()
         {
             string[] permutation = { "State1", "State4", "State6" };

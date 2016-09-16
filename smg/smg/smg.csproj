@@ -52,11 +52,13 @@
     <Compile Include="ExtensionMethods\EnumerableExtensions.cs" />
     <Compile Include="StateDescription\Attributes\AvailableForAllStatesAttribute.cs" />
     <Compile Include="StateDescription\Attributes\AvailableForStatesAttribute.cs" />
+    <Compile Include="StateDescription\Attributes\ChangeToStateAttribute.cs" />
     <Compile Include="StateDescription\Attributes\StateGroupAttribute.cs" />
     <Compile Include="StateDescription\IAmStateful.cs" />
     <Compile Include="StateDescription\LogicalRelations\AndLogicalRelation.cs" />
     <Compile Include="StateDescription\LogicalRelations\ILogicalRelation.cs" />
     <Compile Include="StateDescription\LogicalRelations\OrLogicalRelation.cs" />
+    <Compile Include="StateDescription\LogicalRelations\RelationHelpers.cs" />
     <Compile Include="StateDescription\LogicalRelations\XorLogicalRelation.cs" />
     <Compile Include="StateGeneration\DecoratorMethod.cs" />
     <Compile Include="StateGeneration\Exceptions\InvalidStateRepresentationException.cs" />

@@ -26,11 +26,11 @@ namespace smg.StateGeneration
         /// <summary>
         /// The name of the field contains the wrapped stateful object.
         /// </summary>
-        private const string WRAPPED_FIELD_NAME = "mWrappedInstance";
+        public const string WRAPPED_FIELD_NAME = "mWrappedInstance";
 
         #endregion
 
-        #region Construct
+        #region Constructor
 
         /// <summary>
         /// Creates a new instance of <see cref="StateWrapper"/>.
@@ -115,20 +115,7 @@ namespace smg.StateGeneration
             if (availableForStates != null)
             {
                 Type logicalRelationType = availableForStates.Relation;
-                ILogicalRelation relation = null;
-                try
-                {
-                    relation = Activator.CreateInstance(logicalRelationType) as ILogicalRelation;
-                }
-                catch
-                {
-                    // ignored
-                }
-                if (relation == null)
-                {
-                    throw new InvalidStateRepresentationException($"{nameof(AvailableForStatesAttribute.Relation)} must be a non-abstract class with default constructor and implement {nameof(ILogicalRelation)}.");
-                }
-                return relation.IsPermutationValid(groupToStates, mPermutation, availableForStates.States);
+                return RelationHelpers.IsPermutationValid(mPermutation, logicalRelationType, availableForStates.States, groupToStates);
             }
 
             return false;
