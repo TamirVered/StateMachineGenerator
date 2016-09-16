@@ -22,7 +22,7 @@ namespace smg.StateDescription.Attributes
     ///  - StateC + StateY
     /// </example>
     [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = true)]
-    internal sealed class StateGroupAttribute : Attribute
+    public sealed class StateGroupAttribute : Attribute
     {
         /// <summary>
         /// Name of the state group.

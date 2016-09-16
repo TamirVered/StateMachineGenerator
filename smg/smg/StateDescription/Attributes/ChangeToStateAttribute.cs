@@ -7,7 +7,7 @@ namespace smg.StateDescription.Attributes
     /// Indicates that the decorated method should change return a state wrapper of a different state.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
-    internal sealed class ChangeToStateAttribute : Attribute
+    public sealed class ChangeToStateAttribute : Attribute
     {
         /// <summary>
         /// The state which the stateful <see cref="Type"/> whos method is being invoked should be activated.

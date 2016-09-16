@@ -7,7 +7,7 @@ namespace smg.StateDescription.Attributes
     /// Indicates that a method is available for specific states that the stateful object containing it might be at.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
-    internal sealed class AvailableForStatesAttribute : Attribute
+    public sealed class AvailableForStatesAttribute : Attribute
     {
         /// <summary>
         /// Determines how to <see cref="States"/> should be referenced.
