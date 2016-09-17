@@ -68,12 +68,14 @@ namespace smg.UnitTests
         }
 
         [AvailableForStates("On")]
+        [ChangeToState("Off")]
         public void TurnOff()
         {
 
         }
 
         [AvailableForStates("Off")]
+        [ChangeToState("On")]
         public void TurnOn()
         {
 
