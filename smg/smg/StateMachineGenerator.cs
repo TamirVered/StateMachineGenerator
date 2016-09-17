@@ -78,26 +78,74 @@ namespace smg
             StateGenerator generator = StateGenerator.GetFromType(type);
 
             CodeDomProvider codeProvider = CodeDomProvider.CreateProvider("CSharp");
-            
-            CodeGeneratorOptions codeGeneratorOptions = new CodeGeneratorOptions { BlankLinesBetweenMembers = true, IndentString = "\t", BracingStyle = "C"};
+
+            if (!argsData.GenerateAssembly)
+            {
+                GenerateSource(generator, codeProvider, argsData);
+            }
+            else
+            {
+                GenerateAssembly(argsData, type.Name + "StateWrappers.dll", codeProvider, generator);
+            }
+        }
+
+        /// <summary>
+        /// Outputs the generated wrapper classes to assembly file.
+        /// </summary>
+        /// <param name="argsData">Contains the arguments that were used to run the application.</param>
+        /// <param name="outputName">The name and path to the output assembly file.</param>
+        /// <param name="codeProvider">A <see cref="CodeDomProvider"/> initialized with the desired language to generate the code.</param>
+        /// <param name="generator">The <see cref="StateGenerator"/> which generates the wrapper classes.</param>
+        private static void GenerateAssembly(ArgsData argsData, string outputName, CodeDomProvider codeProvider,
+            StateGenerator generator)
+        {
+            CompilerParameters compilerParameters = new CompilerParameters
+            {
+                GenerateInMemory = false,
+                OutputAssembly = Path.Combine(argsData.OutputPath, outputName),
+                ReferencedAssemblies = {argsData.SourceAssemblyPath},
+            };
+            CompilerResults results = codeProvider.CompileAssemblyFromDom(compilerParameters, generator.GetCompileUnit());
+        }
+
+        /// <summary>
+        /// Outputs the generated wrapper classes to source files.
+        /// </summary>
+        /// <param name="generator">The <see cref="StateGenerator"/> which generates the wrapper classes.</param>
+        /// <param name="codeProvider">A <see cref="CodeDomProvider"/> initialized with the desired language to generate the code.</param>
+        /// <param name="argsData">Contains the arguments that were used to run the application.</param>
+        private static void GenerateSource(StateGenerator generator, CodeDomProvider codeProvider, ArgsData argsData)
+        {
+            CodeGeneratorOptions codeGeneratorOptions = new CodeGeneratorOptions
+            {
+                BlankLinesBetweenMembers = true,
+                IndentString = "\t",
+                BracingStyle = "C",
+            };
 
             foreach (CodeNamespace codeNamespace in generator.GetCompileUnit().Namespaces)
             {
                 foreach (CodeTypeDeclaration codeTypeDeclaration in codeNamespace.Types)
                 {
+                    CodeCompileUnit compileUnit = new CodeCompileUnit();
+                    CodeNamespace newNamespace = new CodeNamespace(codeNamespace.Name);
+                    newNamespace.Types.Add(codeTypeDeclaration);
+                    compileUnit.Namespaces.Add(newNamespace);
+
                     StringBuilder output = new StringBuilder();
                     using (TextWriter writer = new StringWriter(output))
                     {
-                        codeProvider.GenerateCodeFromType(codeTypeDeclaration, writer, codeGeneratorOptions );
+                        codeProvider.GenerateCodeFromCompileUnit(compileUnit, writer, codeGeneratorOptions);
                     }
-                    
+
                     string outputString = output.ToString();
                     if (codeGeneratorOptions.BlankLinesBetweenMembers)
                     {
                         outputString = FixBlankLines(outputString);
                     }
 
-                    File.WriteAllText(Path.Combine(argsData.OutputPath, codeTypeDeclaration.Name + "." + codeProvider.FileExtension), outputString);
+                    File.WriteAllText(Path.Combine(argsData.OutputPath, codeTypeDeclaration.Name + "." + codeProvider.FileExtension),
+                        outputString);
                 }
             }
         }
@@ -115,9 +163,13 @@ namespace smg
             string outputFixEndRegion = Regex.Replace(outputFixStartRegion, ".*endregion.*",
                 Environment.NewLine + "$&");
 
-            Regex scopeNewLine = new Regex("{" + Environment.NewLine);
+            Regex namespaceScopeNewLine = new Regex("{" + Environment.NewLine + "." + Environment.NewLine);
 
-            return scopeNewLine.Replace(outputFixEndRegion, "{", 1);
+            outputFixEndRegion = namespaceScopeNewLine.Replace(outputFixEndRegion, "{", 1);
+
+            Regex classScopeNewLine = new Regex("{" + Environment.NewLine);
+
+            return classScopeNewLine.Replace(outputFixEndRegion, "{", 1);
         }
 
         /// <summary>
