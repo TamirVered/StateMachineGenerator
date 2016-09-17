@@ -73,9 +73,11 @@ namespace smg.StateGeneration
                 .Select(x => x.GetCodeTypeParameter())
                 .ToArray());
 
-            method.ReturnType = GetMethodReturnType();
+            bool stateChanged;
 
-            GenerateMethodBody(method);
+            method.ReturnType = GetMethodReturnType(out stateChanged);
+
+            GenerateMethodBody(method, !stateChanged);
 
             return method;
         }
@@ -88,7 +90,8 @@ namespace smg.StateGeneration
         /// Generates a method body matching to this instance of <see cref="DecoratorMethod"/> in a given <see cref="CodeMemberMethod"/>.
         /// </summary>
         /// <param name="method">The method for which the code will be generated.</param>
-        private void GenerateMethodBody(CodeMemberMethod method)
+        /// <param name="returnThis">A value indicating whether the method should return the instance in which it is invoked.</param>
+        private void GenerateMethodBody(CodeMemberMethod method, bool returnThis)
         {
             CodeFieldReferenceExpression fieldReference = new CodeFieldReferenceExpression(new CodeThisReferenceExpression(),
                 StateWrapper.WRAPPED_FIELD_NAME);
@@ -109,8 +112,15 @@ namespace smg.StateGeneration
             if (mMethodInfo.ReturnType == typeof(void))
             {
                 method.Statements.Add(methodInvoke);
-                CodeObjectCreateExpression constructorCall = new CodeObjectCreateExpression(method.ReturnType, fieldReference);
-                method.Statements.Add(new CodeMethodReturnStatement(constructorCall));
+                if (!returnThis)
+                {
+                    CodeObjectCreateExpression constructorCall = new CodeObjectCreateExpression(method.ReturnType, fieldReference);
+                    method.Statements.Add(new CodeMethodReturnStatement(constructorCall));
+                }
+                else
+                {
+                    method.Statements.Add(new CodeMethodReturnStatement(new CodeThisReferenceExpression()));
+                }
             }
             else
             {
@@ -121,11 +131,13 @@ namespace smg.StateGeneration
         /// <summary>
         /// Provides the return type that the decorator method should have.
         /// </summary>
+        /// <param name="stateChanged">A value indicating whether the state of the wrapper containing this method has changed due to its invocation.</param>
         /// <returns>The return type that the decorator method should have.</returns>
-        private CodeTypeReference GetMethodReturnType()
+        private CodeTypeReference GetMethodReturnType(out bool stateChanged)
         {
             if (mMethodInfo.ReturnType != typeof(void))
             {
+                stateChanged = false;
                 return new CodeTypeReference(mMethodInfo.ReturnType);
             }
 
@@ -149,6 +161,8 @@ namespace smg.StateGeneration
             }
 
             string[] newState = mPermutation.Select(x => ReplaceStateIfNeeded(x, statesChanges)).ToArray();
+
+            stateChanged = !newState.SequenceEqual(mPermutation);
 
             string typeName = string.Join(string.Empty, newState) + StateWrapper.NAME_POSTFIX;
 

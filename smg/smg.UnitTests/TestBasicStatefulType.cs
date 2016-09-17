@@ -23,13 +23,15 @@ namespace smg.UnitTests
     [StateGroup("Movable", "On", "Off")]
     public class TestBasicStatefulType
     {
+        private int movements = 0;
+
         [AvailableForStates("On", "Middle", Relation = typeof(AndLogicalRelation))]
         [AvailableForStates("On", "Down", Relation = typeof(AndLogicalRelation))]
         [ChangeToState("Up", "Middle")]
         [ChangeToState("Middle", "Down")]
         public void MoveUp()
         {
-
+            movements++;
         }
 
         [AvailableForStates("On", "Middle", Relation = typeof(AndLogicalRelation))]
@@ -38,7 +40,7 @@ namespace smg.UnitTests
         [ChangeToState("Down", "Middle")]
         public void MoveDown()
         {
-
+            movements++;
         }
 
         [AvailableForStates("On", "Middle", Relation = typeof(AndLogicalRelation))]
@@ -47,7 +49,7 @@ namespace smg.UnitTests
         [ChangeToState("Left", "Middle")]
         public void MoveLeft()
         {
-
+            movements++;
         }
 
         [AvailableForStates("On", "Middle", Relation = typeof(AndLogicalRelation))]
@@ -56,7 +58,7 @@ namespace smg.UnitTests
         [ChangeToState("Right", "Middle")]
         public void MoveRight()
         {
-
+            movements++;
         }
 
         [AvailableForAllStates]
@@ -75,6 +77,12 @@ namespace smg.UnitTests
         public void TurnOn()
         {
 
+        }
+
+        [AvailableForAllStates]
+        public int GetMovements()
+        {
+            return movements;
         }
     }
 }
