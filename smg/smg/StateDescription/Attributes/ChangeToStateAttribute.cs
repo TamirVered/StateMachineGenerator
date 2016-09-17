@@ -12,7 +12,7 @@ namespace smg.StateDescription.Attributes
         /// <summary>
         /// The state which the stateful <see cref="Type"/> whos method is being invoked should be activated.
         /// </summary>
-        public string TargetState { get; private set; }
+        public string TargetState { get; }
 
         /// <summary>
         /// Determines how to <see cref="ConditionStates"/> should be referenced.

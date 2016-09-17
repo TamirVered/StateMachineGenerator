@@ -85,7 +85,6 @@ namespace smg.StateGeneration
 
             CodeTypeDeclaration typeDeclaration = new CodeTypeDeclaration(className)
             {
-                IsClass = true,
                 TypeAttributes = TypeAttributes.Public | TypeAttributes.Class
             };
 
@@ -93,16 +92,35 @@ namespace smg.StateGeneration
                 .Select(x => x.GetCodeTypeParameter())
                 .ToArray());
 
+            CodeRegionDirective privateFieldsRegionStart = new CodeRegionDirective(CodeRegionMode.Start, "Private Fields");
+            CodeRegionDirective privateFieldsRegionEnd = new CodeRegionDirective(CodeRegionMode.End, string.Empty);
+
             CodeTypeMemberCollection members = new CodeTypeMemberCollection
             {
-                new CodeMemberField(mStatefulType, WRAPPED_FIELD_NAME) {Attributes = MemberAttributes.Family},
+                new CodeMemberField(mStatefulType, WRAPPED_FIELD_NAME)
+                {
+                    Attributes = MemberAttributes.Family,
+                    StartDirectives = { privateFieldsRegionStart },
+                    EndDirectives = { privateFieldsRegionEnd }
+                },
                 GetStateConstructor()
             };
 
+            CodeRegionDirective publicMethodsRegionStart = new CodeRegionDirective(CodeRegionMode.Start, "Public Methods");
+            CodeRegionDirective publicMethodsRegionEnd = new CodeRegionDirective(CodeRegionMode.End, string.Empty);
+            bool firstMethod = true;
+
             foreach (CodeMemberMethod codeMemberMethod in mDecoratorMethods.Select(x => x.GetMemberMethod()))
             {
+                if (firstMethod)
+                {
+                    codeMemberMethod.StartDirectives.Add(publicMethodsRegionStart);
+                }
                 members.Add(codeMemberMethod);
+                firstMethod = false;
             }
+            members[members.Count - 1].EndDirectives.Add(publicMethodsRegionEnd);
+            typeDeclaration.Members.AddRange(members);
 
             return typeDeclaration;
         }
@@ -115,14 +133,29 @@ namespace smg.StateGeneration
         /// Gets a constructor to instantiate the state wrapper.
         /// </summary>
         /// <returns>A constructor to instantiate the state wrapper.</returns>
+        /// <example>
+        /// public TypeName(StatefulType statefulObject)
+        /// {
+        ///     this.mWrappedInstance = statefulObject;
+        /// }
+        /// </example>
         private CodeConstructor GetStateConstructor()
         {
-            CodeConstructor constructor = new CodeConstructor { Attributes = MemberAttributes.Public };
+            CodeRegionDirective constructorsRegionStart = new CodeRegionDirective(CodeRegionMode.Start, "Constructors");
+            CodeRegionDirective constructorsRegionEnd = new CodeRegionDirective(CodeRegionMode.End, string.Empty);
+
+            CodeConstructor constructor = new CodeConstructor
+            {
+                Attributes = MemberAttributes.Public,
+                StartDirectives = { constructorsRegionStart },
+                EndDirectives = { constructorsRegionEnd }
+            };
 
             CodeParameterDeclarationExpression parameter = new CodeParameterDeclarationExpression(new CodeTypeReference(mStatefulType), CONSTRUCTOR_ARGUMENT_NAME);
+            CodeVariableReferenceExpression parameterReference = new CodeVariableReferenceExpression(parameter.Name);
             CodeFieldReferenceExpression fieldReference = new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), WRAPPED_FIELD_NAME);
             constructor.Parameters.Add(parameter);
-            constructor.Statements.Add(new CodeAssignStatement(fieldReference, parameter));
+            constructor.Statements.Add(new CodeAssignStatement(fieldReference, parameterReference));
 
             return constructor;
         }
@@ -136,9 +169,9 @@ namespace smg.StateGeneration
         private bool IsRelevantMethod(MethodInfo method, Dictionary<string, string[]> groupToStates)
         {
             AvailableForAllStatesAttribute availableForAll = method.GetCustomAttribute<AvailableForAllStatesAttribute>();
-            AvailableForStatesAttribute availableForStates = method.GetCustomAttribute<AvailableForStatesAttribute>();
+            IEnumerable<AvailableForStatesAttribute> availableForStates = method.GetCustomAttributes<AvailableForStatesAttribute>();
 
-            if (availableForAll != null && availableForStates == null)
+            if (availableForAll != null && availableForStates.Any())
             {
                 throw new InvalidStateRepresentationException($"A method cannot be decorated by both {nameof(AvailableForAllStatesAttribute)} and {nameof(AvailableForStatesAttribute)}.");
             }
@@ -148,10 +181,9 @@ namespace smg.StateGeneration
                 return true;
             }
 
-            if (availableForStates != null)
+            if (availableForStates.Any())
             {
-                Type logicalRelationType = availableForStates.Relation;
-                return RelationHelpers.IsPermutationValid(mPermutation, logicalRelationType, availableForStates.States, groupToStates);
+                return availableForStates.Any(x => RelationHelpers.IsPermutationValid(mPermutation, x.Relation, x.States, groupToStates));
             }
 
             return false;

@@ -1,9 +1,12 @@
 ﻿using System;
+using System.CodeDom;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using smg.ArgumentParsing;
 using smg.StateGeneration;
@@ -73,6 +76,48 @@ namespace smg
             }
 
             StateGenerator generator = StateGenerator.GetFromType(type);
+
+            CodeDomProvider codeProvider = CodeDomProvider.CreateProvider("CSharp");
+            
+            CodeGeneratorOptions codeGeneratorOptions = new CodeGeneratorOptions { BlankLinesBetweenMembers = true, IndentString = "\t", BracingStyle = "C"};
+
+            foreach (CodeNamespace codeNamespace in generator.GetCompileUnit().Namespaces)
+            {
+                foreach (CodeTypeDeclaration codeTypeDeclaration in codeNamespace.Types)
+                {
+                    StringBuilder output = new StringBuilder();
+                    using (TextWriter writer = new StringWriter(output))
+                    {
+                        codeProvider.GenerateCodeFromType(codeTypeDeclaration, writer, codeGeneratorOptions );
+                    }
+                    
+                    string outputString = output.ToString();
+                    if (codeGeneratorOptions.BlankLinesBetweenMembers)
+                    {
+                        outputString = FixBlankLines(outputString);
+                    }
+
+                    File.WriteAllText(Path.Combine(argsData.OutputPath, codeTypeDeclaration.Name + "." + codeProvider.FileExtension), outputString);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Fixes a problem with <see cref="CodeGeneratorOptions.BlankLinesBetweenMembers"/> which adds blank line at the beginning of a class and doesn't add them in regions.
+        /// </summary>
+        /// <param name="code">The code of a class to be fixed.</param>
+        /// <returns>The input <paramref name="code"/> after fixing its code generation failiurs.</returns>
+        private static string FixBlankLines(string code)
+        {
+            string outputFixStartRegion = Regex.Replace(code, $"#region.*{Environment.NewLine}",
+                "$&" + Environment.NewLine);
+
+            string outputFixEndRegion = Regex.Replace(outputFixStartRegion, ".*endregion.*",
+                Environment.NewLine + "$&");
+
+            Regex scopeNewLine = new Regex("{" + Environment.NewLine);
+
+            return scopeNewLine.Replace(outputFixEndRegion, "{", 1);
         }
 
         /// <summary>

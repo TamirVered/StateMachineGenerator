@@ -66,10 +66,14 @@ namespace smg.StateGeneration
         public CodeCompileUnit GetCompileUnit()
         {
             CodeCompileUnit compileUnit = new CodeCompileUnit();
+
             CodeNamespace codeNamespace = new CodeNamespace(mStatefulType.Namespace);
             codeNamespace.Types.AddRange(mStateWrappers
                 .Select(x => x.GetTypeDeclaration())
                 .ToArray());
+
+            compileUnit.Namespaces.Add(codeNamespace);
+
             return compileUnit;
         }
 
