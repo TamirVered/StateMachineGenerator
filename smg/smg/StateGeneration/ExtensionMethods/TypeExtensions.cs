@@ -2,6 +2,7 @@
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,13 +22,38 @@ namespace smg.StateGeneration.ExtensionMethods
         {
             CodeTypeParameter typeParameter = new CodeTypeParameter(type.Name);
 
-            typeParameter.Constraints.AddRange(type.GetGenericParameterConstraints()
-                .Select(x => new CodeTypeReference(x))
-                .ToArray());
+            Type[] genericConstraints = type.GetGenericParameterConstraints();
+            if (genericConstraints.Any())
+            {
+                typeParameter.Constraints.AddRange(genericConstraints
+                    .Select(x => x.ContainsGenericParameters ? x.WithGenericTypeArguments() : new CodeTypeReference(x))
+                    .ToArray());
+            }
 
-            typeParameter.HasConstructorConstraint = (type.GetConstructor(Type.EmptyTypes) != null);
+            typeParameter.HasConstructorConstraint = type.GenericParameterAttributes.HasFlag(GenericParameterAttributes.DefaultConstructorConstraint);
 
             return typeParameter;
+        }
+
+        /// <summary>
+        /// Recursively resolves a reference to a type with its generic type arguments.
+        /// </summary>
+        /// <param name="type">The type whos reference will be resolved.</param>
+        /// <returns>A resolved reference to a type with its generic type arguments.</returns>
+        public static CodeTypeReference WithGenericTypeArguments(this Type type)
+        {
+            if (!type.ContainsGenericParameters)
+            {
+                return new CodeTypeReference(type);
+            }
+
+            List<CodeTypeReference> genericArguments = new List<CodeTypeReference>();
+            foreach (Type genericTypeArgument in type.GenericTypeArguments)
+            {
+                genericArguments.Add(genericTypeArgument.WithGenericTypeArguments());
+            }
+
+            return new CodeTypeReference(type.Name, genericArguments.ToArray());
         }
     }
 }

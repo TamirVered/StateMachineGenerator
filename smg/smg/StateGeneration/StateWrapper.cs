@@ -95,9 +95,16 @@ namespace smg.StateGeneration
             CodeRegionDirective privateFieldsRegionStart = new CodeRegionDirective(CodeRegionMode.Start, "Private Fields");
             CodeRegionDirective privateFieldsRegionEnd = new CodeRegionDirective(CodeRegionMode.End, string.Empty);
 
+            List<CodeTypeReference> typeParameters = new List<CodeTypeReference>();
+            foreach (CodeTypeParameter codeTypeParameter in typeDeclaration.TypeParameters)
+            {
+                typeParameters.Add(new CodeTypeReference(codeTypeParameter));
+            }
+            CodeTypeReference fieldTypeReference = new CodeTypeReference(mStatefulType.Name, typeParameters.ToArray());
+
             CodeTypeMemberCollection members = new CodeTypeMemberCollection
             {
-                new CodeMemberField(mStatefulType, WRAPPED_FIELD_NAME)
+                new CodeMemberField(fieldTypeReference, WRAPPED_FIELD_NAME)
                 {
                     Attributes = MemberAttributes.Family,
                     StartDirectives = { privateFieldsRegionStart },
