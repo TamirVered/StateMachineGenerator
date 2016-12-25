@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-namespace smg.StateGeneration.Exceptions
+namespace smg.common.Exceptions
 {
     /// <summary>
     /// Thrown when a stateful type was represented by an invalid set of attributes.

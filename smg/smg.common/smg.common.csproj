@@ -4,17 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AE9D5BEF-CC70-466F-B1F9-965E7ACB7FD7}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{27C2ED74-99B8-4B26-83D1-807B375629CC}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>smg</RootNamespace>
-    <AssemblyName>smg</AssemblyName>
+    <RootNamespace>smg.common</RootNamespace>
+    <AssemblyName>smg.common</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -33,10 +30,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="smg.common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\bin\smg.common.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -47,25 +40,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ArgumentParsing\ArgsData.cs" />
-    <Compile Include="ArgumentParsing\ArgsParser.cs" />
-    <Compile Include="ArgumentParsing\Attributes\BooleanArgAttribute.cs" />
-    <Compile Include="ArgumentParsing\Attributes\IndexedArgAttribute.cs" />
-    <Compile Include="ArgumentParsing\Exceptions\ArgumentParsingException.cs" />
-    <Compile Include="ArgumentParsing\Exceptions\BooleanArgumentPropertyIsNotBoolException.cs" />
-    <Compile Include="ExtensionMethods\EnumerableExtensions.cs" />
-    <Compile Include="Helpers\RelationHelpers.cs" />
-    <Compile Include="StateGeneration\DecoratorMethod.cs" />
-    <Compile Include="StateGeneration\ExtensionMethods\TypeExtensions.cs" />
-    <Compile Include="StateGeneration\StateGenerator.cs" />
-    <Compile Include="StateGeneration\StateWrapper.cs" />
-    <Compile Include="StateMachineGenerator.cs" />
+    <Compile Include="Exceptions\InvalidStateRepresentationException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StateDescription\Attributes\AvailableForAllStatesAttribute.cs" />
+    <Compile Include="StateDescription\Attributes\AvailableForStatesAttribute.cs" />
+    <Compile Include="StateDescription\Attributes\ChangeToStateAttribute.cs" />
+    <Compile Include="StateDescription\Attributes\StateGroupAttribute.cs" />
+    <Compile Include="StateDescription\IAmStateful.cs" />
+    <Compile Include="StateDescription\LogicalRelations\AndLogicalRelation.cs" />
+    <Compile Include="StateDescription\LogicalRelations\ILogicalRelation.cs" />
+    <Compile Include="StateDescription\LogicalRelations\OrLogicalRelation.cs" />
+    <Compile Include="StateDescription\LogicalRelations\XorLogicalRelation.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

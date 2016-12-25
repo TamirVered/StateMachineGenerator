@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace smg.StateDescription
+﻿namespace smg.common.StateDescription
 {
     /// <summary>
     /// Indicates that a class is stateful which allows safely throwing exception when state corruption occurs.

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using smg.StateGeneration.Exceptions;
+using smg.common.Exceptions;
+using smg.common.StateDescription.LogicalRelations;
 
-namespace smg.StateDescription.LogicalRelations
+namespace smg.Helpers
 {
     /// <summary>
     /// Utility class containing helper methods for handling relation-related condition validations.

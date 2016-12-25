@@ -3,9 +3,9 @@ using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using smg.StateDescription.Attributes;
-using smg.StateDescription.LogicalRelations;
-using smg.StateGeneration.Exceptions;
+using smg.common.Exceptions;
+using smg.common.StateDescription.Attributes;
+using smg.Helpers;
 using smg.StateGeneration.ExtensionMethods;
 
 namespace smg.StateGeneration
