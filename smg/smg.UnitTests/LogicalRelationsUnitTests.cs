@@ -1,10 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using smg.ExtensionMethods;
-using smg.StateDescription.LogicalRelations;
-using smg.StateGeneration.Exceptions;
+using smg.Common.Exceptions;
+using smg.Common.StateDescription.LogicalRelations;
 
 namespace smg.UnitTests
 {

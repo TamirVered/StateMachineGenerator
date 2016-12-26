@@ -7,8 +7,8 @@
     <ProjectGuid>{27C2ED74-99B8-4B26-83D1-807B375629CC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>smg.common</RootNamespace>
-    <AssemblyName>smg.common</AssemblyName>
+    <RootNamespace>smg.Common</RootNamespace>
+    <AssemblyName>smg.Common</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

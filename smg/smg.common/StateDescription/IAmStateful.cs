@@ -1,4 +1,4 @@
-﻿namespace smg.common.StateDescription
+﻿namespace smg.Common.StateDescription
 {
     /// <summary>
     /// Indicates that a class is stateful which allows safely throwing exception when state corruption occurs.

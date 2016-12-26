@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using smg.common.Exceptions;
+using smg.Common.Exceptions;
 
-namespace smg.common.StateDescription.LogicalRelations
+namespace smg.Common.StateDescription.LogicalRelations
 {
     /// <summary>
     /// Represents an or logical gate relation for state availability evaluation.

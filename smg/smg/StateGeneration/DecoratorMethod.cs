@@ -3,8 +3,8 @@ using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using smg.common.Exceptions;
-using smg.common.StateDescription.Attributes;
+using smg.Common.Exceptions;
+using smg.Common.StateDescription.Attributes;
 using smg.Helpers;
 using smg.StateGeneration.ExtensionMethods;
 

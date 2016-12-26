@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smg", "smg\smg.csproj", "{A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smg.UnitTests", "smg.UnitTests\smg.UnitTests.csproj", "{F59C406C-B41F-4325-985B-B44576EC08F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smg.common", "smg.common\smg.common.csproj", "{27C2ED74-99B8-4B26-83D1-807B375629CC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smg.Common", "smg.Common\smg.Common.csproj", "{27C2ED74-99B8-4B26-83D1-807B375629CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

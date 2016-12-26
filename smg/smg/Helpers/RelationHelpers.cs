@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using smg.common.Exceptions;
-using smg.common.StateDescription.LogicalRelations;
+using smg.Common.Exceptions;
+using smg.Common.StateDescription.LogicalRelations;
 
 namespace smg.Helpers
 {

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using smg.StateDescription.Attributes;
-using smg.StateDescription.LogicalRelations;
+using smg.Common.StateDescription.Attributes;
+using smg.Common.StateDescription.LogicalRelations;
 
 namespace smg.UnitTests
 {

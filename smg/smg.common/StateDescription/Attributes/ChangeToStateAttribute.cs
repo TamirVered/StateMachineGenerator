@@ -1,7 +1,7 @@
 ﻿using System;
-using smg.common.StateDescription.LogicalRelations;
+using smg.Common.StateDescription.LogicalRelations;
 
-namespace smg.common.StateDescription.Attributes
+namespace smg.Common.StateDescription.Attributes
 {
     /// <summary>
     /// Indicates that the decorated method should change return a state wrapper of a different state.
