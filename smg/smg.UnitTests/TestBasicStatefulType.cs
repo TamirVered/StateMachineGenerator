@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using smg.Common.StateDescription.Attributes;
 using smg.Common.StateDescription.LogicalRelations;
 

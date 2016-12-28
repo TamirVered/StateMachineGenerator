@@ -5,7 +5,6 @@ using System.Linq;
 using System.Reflection;
 using smg.Common.Exceptions;
 using smg.Common.StateDescription.Attributes;
-using smg.Helpers;
 using smg.StateGeneration.ExtensionMethods;
 
 namespace smg.StateGeneration
