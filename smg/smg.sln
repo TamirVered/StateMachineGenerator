@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smg", "smg\smg.csproj", "{AE9D5BEF-CC70-466F-B1F9-965E7ACB7FD7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smg.UnitTests", "smg.UnitTests\smg.UnitTests.csproj", "{F59C406C-B41F-4325-985B-B44576EC08F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "smg.Common", "smg.Common\smg.Common.csproj", "{27C2ED74-99B8-4B26-83D1-807B375629CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{F59C406C-B41F-4325-985B-B44576EC08F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F59C406C-B41F-4325-985B-B44576EC08F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F59C406C-B41F-4325-985B-B44576EC08F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27C2ED74-99B8-4B26-83D1-807B375629CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27C2ED74-99B8-4B26-83D1-807B375629CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27C2ED74-99B8-4B26-83D1-807B375629CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27C2ED74-99B8-4B26-83D1-807B375629CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

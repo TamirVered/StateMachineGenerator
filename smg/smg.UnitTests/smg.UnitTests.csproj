@@ -21,7 +21,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\bin\</OutputPath>
+    <OutputPath>..\bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -29,7 +29,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -56,6 +56,10 @@
     <Compile Include="TestBasicStatefulType.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\smg.Common\smg.Common.csproj">
+      <Project>{27c2ed74-99b8-4b26-83d1-807b375629cc}</Project>
+      <Name>smg.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\smg\smg.csproj">
       <Project>{ae9d5bef-cc70-466f-b1f9-965e7acb7fd7}</Project>
       <Name>smg</Name>

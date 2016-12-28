@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace smg.StateDescription.LogicalRelations
+namespace smg.Common.StateDescription.LogicalRelations
 {
     /// <summary>
     /// Represents a logical gate relation for state availability evaluation.

@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using smg.StateGeneration.Exceptions;
+using System.Collections.Generic;
+using smg.Common.Exceptions;
+using smg.Common.StateDescription.LogicalRelations;
 
-namespace smg.StateDescription.LogicalRelations
+namespace smg
 {
     /// <summary>
     /// Utility class containing helper methods for handling relation-related condition validations.
@@ -30,7 +29,7 @@ namespace smg.StateDescription.LogicalRelations
             }
             catch
             {
-                // ignored
+                // Ignored because we treat the exception and logical type which does not implement ILogicalRelation the same.
             }
             if (relation == null)
             {

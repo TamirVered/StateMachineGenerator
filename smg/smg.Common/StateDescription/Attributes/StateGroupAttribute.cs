@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace smg.StateDescription.Attributes
+namespace smg.Common.StateDescription.Attributes
 {
     /// <summary>
     /// Represents a group of states where only one of the states can be active.

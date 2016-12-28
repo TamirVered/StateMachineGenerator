@@ -1,7 +1,7 @@
 ﻿using System;
-using smg.StateDescription.LogicalRelations;
+using smg.Common.StateDescription.LogicalRelations;
 
-namespace smg.StateDescription.Attributes
+namespace smg.Common.StateDescription.Attributes
 {
     /// <summary>
     /// Indicates that a method is available for specific states that the stateful object containing it might be at.

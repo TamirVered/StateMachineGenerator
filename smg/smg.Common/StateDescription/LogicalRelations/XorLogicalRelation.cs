@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace smg.StateDescription.LogicalRelations
+namespace smg.Common.StateDescription.LogicalRelations
 {
     /// <summary>
     /// Represents an or logical gate relation for state availability evaluation.
