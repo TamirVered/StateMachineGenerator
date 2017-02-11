@@ -228,10 +228,14 @@ namespace smg
             catch (Exception exception)
             {
                 Console.WriteLine("Could not load assembly from the given path. use /h for help."
-                                  + Environment.NewLine + "Inner error message: " + Environment.NewLine + exception.Message);
+                                  + Environment.NewLine + "Inner error message: " + Environment.NewLine +
+                                  exception.Message);
                 DisplayHelp();
-                AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve -= ReflectionOnlyAssemblyResolve;
                 return null;
+            }
+            finally
+            {
+                AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve -= ReflectionOnlyAssemblyResolve;
             }
             return assembly;
         }
