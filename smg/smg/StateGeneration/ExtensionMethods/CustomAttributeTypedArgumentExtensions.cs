@@ -28,7 +28,7 @@ namespace smg.StateGeneration.ExtensionMethods
                 return argument.Value;
             }
 
-            Array toReturn = (Array)Activator.CreateInstance(argument.ArgumentType, arrayArgument.Count);
+            Array toReturn = Array.CreateInstance(argument.ArgumentType.GetElementType(), arrayArgument.Count);
 
             for (int i = 0; i < toReturn.Length; i++)
             {

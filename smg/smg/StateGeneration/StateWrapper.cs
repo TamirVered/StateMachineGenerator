@@ -172,8 +172,8 @@ namespace smg.StateGeneration
         /// <returns>A value indicating whether a method is relevant for the state permutation represented by this instance of <see cref="StateWrapper"/>.</returns>
         private bool IsRelevantMethod(MethodInfo method, Dictionary<string, string[]> groupToStates)
         {
-            AvailableForAllStatesAttribute availableForAll = method.GetCustomAttribute<AvailableForAllStatesAttribute>();
-            IEnumerable<AvailableForStatesAttribute> availableForStates = method.GetCustomAttributes<AvailableForStatesAttribute>();
+            AvailableForAllStatesAttribute availableForAll = method.GetCustomAttributeReflectionOnly<AvailableForAllStatesAttribute>();
+            IEnumerable<AvailableForStatesAttribute> availableForStates = method.GetCustomAttributesReflectionOnly<AvailableForStatesAttribute>();
 
             if (availableForAll != null && availableForStates.Any())
             {
