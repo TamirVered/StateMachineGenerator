@@ -222,16 +222,23 @@ namespace smg
             Assembly assembly;
             try
             {
-                assembly = Assembly.LoadFrom(path);
+                AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve += ReflectionOnlyAssemblyResolve;
+                assembly = Assembly.ReflectionOnlyLoadFrom(path);
             }
             catch (Exception exception)
             {
                 Console.WriteLine("Could not load assembly from the given path. use /h for help."
                                   + Environment.NewLine + "Inner error message: " + Environment.NewLine + exception.Message);
                 DisplayHelp();
+                AppDomain.CurrentDomain.ReflectionOnlyAssemblyResolve -= ReflectionOnlyAssemblyResolve;
                 return null;
             }
             return assembly;
+        }
+
+        private static Assembly ReflectionOnlyAssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            return Assembly.ReflectionOnlyLoad(args.Name);
         }
 
         private static void DisplayHelp()

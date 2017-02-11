@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <StartArguments>"C:\Users\Matan\Documents\visual studio 2015\Projects\SMGDumby\SMGDumby\bin\x86\Debug\SMGDumby.dll" SMGDumby.MyStatefulClass "C:\Users\Matan\Documents\visual studio 2015\Projects\SMGDumby\SMGDumby\bin\x86\Debug\SMGProduct"</StartArguments>
+    <StartAction>Program</StartAction>
+    <StartProgram>C:\Users\Matan\Documents\Visual Studio 2015\Projects\SMGDumby\SMGDumby\bin\x86\Debug\smg.exe</StartProgram>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <StartAction>Program</StartAction>
+    <StartProgram>C:\Users\Matan\Desktop\GitRepos\SMG\smg\bin\Debug\smg.exe</StartProgram>
+    <StartArguments>"C:\Users\Matan\Documents\visual studio 2015\Projects\SMGDumby\SMGDumby\bin\x86\Debug\SMGDumby.dll" SMGDumby.MyStatefulClass "C:\Users\Matan\Documents\visual studio 2015\Projects\SMGDumby\SMGDumby\bin\x86\Debug\SMGProduct"</StartArguments>
+  </PropertyGroup>
+</Project>

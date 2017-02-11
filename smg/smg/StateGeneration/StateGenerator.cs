@@ -2,10 +2,10 @@
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using smg.Common.Exceptions;
 using smg.Common.StateDescription.Attributes;
 using smg.ExtensionMethods;
+using smg.StateGeneration.ExtensionMethods;
 
 namespace smg.StateGeneration
 {
@@ -23,8 +23,8 @@ namespace smg.StateGeneration
         private StateGenerator(Type type)
         {
             mStatefulType = type;
-
-            Dictionary<string, string[]> groupToStates = type.GetCustomAttributes<StateGroupAttribute>()
+            
+            Dictionary<string, string[]> groupToStates = type.GetCustomAttributesReflectionOnly<StateGroupAttribute>()
                 .ToDictionary(x => x.Name, x => x.States);
 
             ValidateStateGroups(groupToStates);

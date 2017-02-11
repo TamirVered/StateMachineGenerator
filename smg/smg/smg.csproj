@@ -54,6 +54,8 @@
     <Compile Include="ExtensionMethods\EnumerableExtensions.cs" />
     <Compile Include="RelationHelpers.cs" />
     <Compile Include="StateGeneration\DecoratorMethod.cs" />
+    <Compile Include="StateGeneration\ExtensionMethods\CustomAttributeTypedArgumentExtensions.cs" />
+    <Compile Include="StateGeneration\ExtensionMethods\MemberInfoExtensions.cs" />
     <Compile Include="StateGeneration\ExtensionMethods\TypeExtensions.cs" />
     <Compile Include="StateGeneration\StateGenerator.cs" />
     <Compile Include="StateGeneration\StateWrapper.cs" />
