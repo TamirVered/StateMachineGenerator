@@ -10,3 +10,7 @@
 *.config
 *.dll
 *.suo
+/smg/bin
+/smg/smg/obj/Debug
+/smg/smg.Common/obj/Debug
+/smg/smg.UnitTests/obj/Debug

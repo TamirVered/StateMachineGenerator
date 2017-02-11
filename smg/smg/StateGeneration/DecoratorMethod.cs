@@ -140,7 +140,7 @@ namespace smg.StateGeneration
                 return new CodeTypeReference(mMethodInfo.ReturnType);
             }
 
-            IEnumerable<string> statesChanges = mMethodInfo.GetCustomAttributes<ChangeToStateAttribute>()
+            IEnumerable<string> statesChanges = mMethodInfo.GetCustomAttributesReflectionOnly<ChangeToStateAttribute>()
                 .Where(x => RelationHelpers.IsPermutationValid(mPermutation, x.ConditionRelation, x.ConditionStates, mGroupsToStates))
                 .Select(x => x.TargetState);
 

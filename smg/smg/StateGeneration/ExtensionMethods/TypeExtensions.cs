@@ -28,7 +28,8 @@ namespace smg.StateGeneration.ExtensionMethods
                     .ToArray());
             }
 
-            typeParameter.HasConstructorConstraint = type.GenericParameterAttributes.HasFlag(GenericParameterAttributes.DefaultConstructorConstraint);
+            typeParameter.HasConstructorConstraint =
+                type.GenericParameterAttributes.HasFlag(GenericParameterAttributes.DefaultConstructorConstraint);
 
             return typeParameter;
         }
