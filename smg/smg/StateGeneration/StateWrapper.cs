@@ -89,41 +89,14 @@ namespace smg.StateGeneration
                 .Select(x => x.GetCodeTypeParameter())
                 .ToArray());
 
-            CodeRegionDirective privateFieldsRegionStart = new CodeRegionDirective(CodeRegionMode.Start, "Private Fields");
-            CodeRegionDirective privateFieldsRegionEnd = new CodeRegionDirective(CodeRegionMode.End, string.Empty);
-
-            List<CodeTypeReference> typeParameters = new List<CodeTypeReference>();
-            foreach (CodeTypeParameter codeTypeParameter in typeDeclaration.TypeParameters)
-            {
-                typeParameters.Add(new CodeTypeReference(codeTypeParameter));
-            }
-            CodeTypeReference fieldTypeReference = new CodeTypeReference(mStatefulType.Name, typeParameters.ToArray());
-
             CodeTypeMemberCollection members = new CodeTypeMemberCollection
             {
-                new CodeMemberField(fieldTypeReference, WRAPPED_FIELD_NAME)
-                {
-                    Attributes = MemberAttributes.Family,
-                    StartDirectives = { privateFieldsRegionStart },
-                    EndDirectives = { privateFieldsRegionEnd }
-                },
+                GetMemberField(typeDeclaration),
                 GetStateConstructor()
             };
 
-            CodeRegionDirective publicMethodsRegionStart = new CodeRegionDirective(CodeRegionMode.Start, "Public Methods");
-            CodeRegionDirective publicMethodsRegionEnd = new CodeRegionDirective(CodeRegionMode.End, string.Empty);
-            bool firstMethod = true;
+            AddMemberMethods(members);
 
-            foreach (CodeMemberMethod codeMemberMethod in mDecoratorMethods.Select(x => x.GetMemberMethod()))
-            {
-                if (firstMethod)
-                {
-                    codeMemberMethod.StartDirectives.Add(publicMethodsRegionStart);
-                }
-                members.Add(codeMemberMethod);
-                firstMethod = false;
-            }
-            members[members.Count - 1].EndDirectives.Add(publicMethodsRegionEnd);
             typeDeclaration.Members.AddRange(members);
 
             return typeDeclaration;
@@ -191,6 +164,57 @@ namespace smg.StateGeneration
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Provides the fields region of the generated wrapper class represented by this instance of <see cref="StateWrapper"/>.
+        /// </summary>
+        /// <param name="typeDeclaration">The<see cref="CodeTypeDeclaration"/> which represents the wrapper class which this <see cref="StateWrapper"/> represents.</param>
+        /// <returns>The fields region of the generated wrapper class represented by this instance of <see cref="StateWrapper"/>.</returns>
+        private CodeMemberField GetMemberField(CodeTypeDeclaration typeDeclaration)
+        {
+            List<CodeTypeReference> typeParameters = new List<CodeTypeReference>();
+            foreach (CodeTypeParameter codeTypeParameter in typeDeclaration.TypeParameters)
+            {
+                typeParameters.Add(new CodeTypeReference(codeTypeParameter));
+            }
+
+            CodeTypeReference fieldTypeReference = new CodeTypeReference(mStatefulType.Name, typeParameters.ToArray());
+            CodeRegionDirective privateFieldsRegionStart = new CodeRegionDirective(CodeRegionMode.Start, "Private Fields");
+            CodeRegionDirective privateFieldsRegionEnd = new CodeRegionDirective(CodeRegionMode.End, string.Empty);
+
+            return new CodeMemberField(fieldTypeReference, WRAPPED_FIELD_NAME)
+            {
+                Attributes = MemberAttributes.Family,
+                StartDirectives = { privateFieldsRegionStart },
+                EndDirectives = { privateFieldsRegionEnd }
+            };
+        }
+
+        /// <summary>
+        /// Adds the methods region of the generated wrapper class represented by this instance of <see cref="StateWrapper"/> to the given <see cref="CodeTypeMemberCollection"/>.
+        /// </summary>
+        /// <param name="members">The <see cref="CodeTypeMemberCollection"/> which contains the members of the <see cref="CodeTypeDeclaration"/> which represents the wrapper class which this <see cref="StateWrapper"/> represents.</param>
+        private void AddMemberMethods(CodeTypeMemberCollection members)
+        {
+            CodeRegionDirective publicMethodsRegionStart = new CodeRegionDirective(CodeRegionMode.Start, "Public Methods");
+            CodeRegionDirective publicMethodsRegionEnd = new CodeRegionDirective(CodeRegionMode.End, string.Empty);
+
+            int methodIndex = 0;
+            foreach (CodeMemberMethod codeMemberMethod in mDecoratorMethods.Select(x => x.GetMemberMethod()))
+            {
+                if (methodIndex == 0)
+                {
+                    codeMemberMethod.StartDirectives.Add(publicMethodsRegionStart);
+                }
+                members.Add(codeMemberMethod);
+
+                methodIndex++;
+                if (methodIndex == mDecoratorMethods.Count)
+                {
+                    codeMemberMethod.EndDirectives.Add(publicMethodsRegionEnd);
+                }
+            }
         }
 
         #endregion
